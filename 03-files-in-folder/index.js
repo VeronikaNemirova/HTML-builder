@@ -8,15 +8,18 @@ const readSecretDir = async (filePath) => {
         });
 
         for (const file of files) {
-            fs.stat(filePath + '/' + file.name, (err, stats) => {
-                if (stats.isDirectory()) {
-                    readSecretDir(filePath + '/' + file.name)
-                } else {
-                    const fileName = file.name.split('.')[0] ? file.name.split('.')[0] : file.name;
-                    console.log(fileName + ' ' + path.extname(file.name) + ' ' + stats.size + 'b')
-                }
-            });
-            
+            if (file.isFile() === true) {
+                fs.stat(filePath + '/' + file.name, (err, stats) => {
+                    if (stats.isDirectory()) {
+                        readSecretDir(filePath + '/' + file.name)
+                    } else {
+                        const fileName = file.name.split('.')[0] ? file.name.split('.')[0] : file.name;
+                        console.log(fileName + ' ' + path.extname(file.name).slice(1) + ' ' + stats.size + 'b')
+                    }
+                });
+            }
+
+
         }
     } catch (err) {
         console.error(err);

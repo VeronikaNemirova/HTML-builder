@@ -28,8 +28,8 @@ async function copyFile(filePath, oldDir, newDir) {
 
 copyDir(__dirname + "/assets", __dirname + "/project-dist/assets");
 
-function streamMerge(sourceFiles, targetFile) {
-    const styles = fs.readdirSync(path.resolve(__dirname, sourceFiles));
+async function streamMerge(sourceFiles, targetFile) {
+    const styles = await fs.promises.readdir(path.resolve(__dirname, sourceFiles));
     const fileWriteStream = fs.createWriteStream(
         path.resolve(__dirname, targetFile)
     );
